@@ -4,4 +4,6 @@ This repository contains my PhD implementations. We focus on matching unstructur
 
 ## Articles Aspects
 
+We consider an article is composed by two features: title and text. The title shortly describes
+
 ## Tables Aspects
