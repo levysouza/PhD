@@ -4,6 +4,6 @@ This repository contains my PhD implementations. We focus on matching unstructur
 
 ## Articles Aspects
 
-We consider a news article is composed by two aspects: title and body. The title briefly describes the news and it has generally 10 or 12 words. The body is a large text about the news-context. Furthermore, both aspects are presented in natural language.
+We consider a news article is composed by two aspects: title and body. The title briefly describes the news and it has generally 10 or 12 words. The body is a large text about the news-content. Furthermore, both aspects are presented in natural language.
 
 ## Tables Aspects
