@@ -10,8 +10,6 @@ queryDataset/
 
 pre-trained-models/
 
-data_analysis/
-
 pre_trained_models/
 
-data_preprocessing/
+raw_data/
