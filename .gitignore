@@ -2,9 +2,9 @@ Implementations/.ipynb_checkpoints
 
 Implementations/__pycache__
 
-articlesDataset/
-
 .ipynb_checkpoints/
+
+articlesDataset/
 
 queryDataset/
 
@@ -17,3 +17,13 @@ raw_data/
 articles_dataset/
 
 dataset/
+
+bert/
+
+*.log
+
+*.tsv
+
+*.h5
+
+*.py
