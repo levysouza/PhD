@@ -10,20 +10,20 @@ module_url = "https://tfhub.dev/google/universal-sentence-encoder/2"
 
 embed = hub.Module(module_url)
 
-read = pd.read_csv('dataset/test_dataset', delimiter=',', header=None)
+read = pd.read_csv('dataset/article_data_newyork', delimiter=',', header=None)
 data_articles = read.iloc[:,:].values
 
-read = pd.read_csv('dataset/cleanDataTables2', delimiter=',', header=None)
+read = pd.read_csv('dataset/table_data_newyork', delimiter=',', header=None)
 data_tables = read.iloc[:,:].values
 
 articles_title = []
 articles_id = []
 
-for article_id, title, text, meta_description, summary, keywords, meta_keywords, tags in tqdm(data_articles[0:1000]):
+for article_url, article_page_title, article_main_passage, table_url in tqdm(data_articles):
     
-    articles_id.append(article_id)
+    articles_id.append(table_url)
     
-    articles_title.append(title)
+    articles_title.append(article_page_title)
     
 
 with tf.Session() as sess:
@@ -32,7 +32,7 @@ with tf.Session() as sess:
             
     embedding_articles = sess.run(embed(articles_title))
     
-    
+
 article_dense_vector = []
 
 for current_embedding in embedding_articles:
@@ -40,14 +40,16 @@ for current_embedding in embedding_articles:
     article_dense_vector.append(current_embedding)
     
 
-    
+len(article_dense_vector)
+
+
 tables_title = []
 
 for current_table in tqdm(data_tables):
     
-    tables_title.append(str(current_table[1]))
+    tables_title.append(str(current_table[2]))
     
-    
+
     
 with tf.Session() as sess:
     
@@ -55,6 +57,7 @@ with tf.Session() as sess:
             
     embedding_tables = sess.run(embed(tables_title))
     
+
     
 tables_dense_vector = []
 
@@ -63,6 +66,9 @@ for current_embedding in embedding_tables:
     tables_dense_vector.append(current_embedding)
     
     
+len(tables_dense_vector)
+
+
 def get_id_ranked_tables(top_k,distance_vector):
 
     id_ranked_tables = []
@@ -92,28 +98,15 @@ def get_accuracy(id_ranked_tables, id_query_goal):
 
     return accuracy
 
-
 def save_accuracy(k,accuracy):
     
     if k == 1:
             
         average_top1.append(accuracy)
         
-    if k == 5:
-            
-        average_top5.append(accuracy)
-        
     if k == 10:
             
         average_top10.append(accuracy)
-        
-    if k == 20:
-            
-        average_top20.append(accuracy)
-     
-    if k == 50:
-            
-        average_top50.append(accuracy)
         
     if k == 100:
             
@@ -123,21 +116,19 @@ def save_accuracy(k,accuracy):
             
         average_top1000.append(accuracy)
         
+        
 average_top1 = []
-average_top5 = []
 average_top10 = []
-average_top20 = []
-average_top50 = []
 average_top100 = []
 average_top1000 = []
 
-top_k = [1,5,10,20,50,100,1000]
+top_k = [1,10,100,1000]
 
 for i in tqdm(range(len(article_dense_vector))):
     
     distance_vector = pairwise_distances(article_dense_vector[i].reshape(1,512), tables_dense_vector, metric='cosine')
     
-    id_query_goal = int(articles_id[i])
+    id_query_goal = articles_id[i]
     
     for accuracy_k in top_k:
         
@@ -151,15 +142,9 @@ for i in tqdm(range(len(article_dense_vector))):
         
         #save the accuracy on the list
         save_accuracy(accuracy_k,accuracy_value)
-        
-        
+
         
 print(str(round(np.mean(average_top1),4)))
-print(str(round(np.mean(average_top5),4)))
 print(str(round(np.mean(average_top10),4)))
-print(str(round(np.mean(average_top20),4)))
-print(str(round(np.mean(average_top50),4)))
 print(str(round(np.mean(average_top100),4)))
 print(str(round(np.mean(average_top1000),4)))
-    
-    

@@ -18,7 +18,7 @@ data_tables = read.iloc[:,:].values
 articles_title = []
 articles_id = []
 
-for article_id, title, text, meta_description, summary, keywords, meta_keywords, tags in tqdm(data_articles):
+for article_id, title, text, meta_description, summary, keywords, meta_keywords, tags in tqdm(data_articles[0:1000]):
     
     articles_id.append(article_id)
     
@@ -87,9 +87,21 @@ def save_accuracy(k,accuracy):
             
         average_top1.append(accuracy)
         
+    if k == 5:
+            
+        average_top5.append(accuracy)
+        
     if k == 10:
             
         average_top10.append(accuracy)
+        
+    if k == 20:
+            
+        average_top20.append(accuracy)
+     
+    if k == 50:
+            
+        average_top50.append(accuracy)
         
     if k == 100:
             
@@ -99,13 +111,15 @@ def save_accuracy(k,accuracy):
             
         average_top1000.append(accuracy)
         
-        
 average_top1 = []
+average_top5 = []
 average_top10 = []
+average_top20 = []
+average_top50 = []
 average_top100 = []
 average_top1000 = []
 
-top_k = [1,10,100,1000]
+top_k = [1,5,10,20,50,100,1000]
 
 for i in tqdm(range(len(article_dense_vector))):
     
@@ -127,7 +141,10 @@ for i in tqdm(range(len(article_dense_vector))):
         save_accuracy(accuracy_k,accuracy_value)
         
              
-print(str(round(np.mean(average_top1),4))+" (±) "+str(round(np.std(average_top1),4)))
-print(str(round(np.mean(average_top10),4))+" (±) "+str(round(np.std(average_top10),4)))
-print(str(round(np.mean(average_top100),4))+" (±) "+str(round(np.std(average_top100),4)))
-print(str(round(np.mean(average_top1000),4))+" (±) "+str(round(np.std(average_top1000),4)))
+print(str(round(np.mean(average_top1),4)))
+print(str(round(np.mean(average_top5),4)))
+print(str(round(np.mean(average_top10),4)))
+print(str(round(np.mean(average_top20),4)))
+print(str(round(np.mean(average_top50),4)))
+print(str(round(np.mean(average_top100),4)))
+print(str(round(np.mean(average_top1000),4)))
