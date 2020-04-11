@@ -20,9 +20,17 @@ dataset/
 
 bert/
 
+new_york_experiments/
+
+ACM_SIGMOD_Contest/
+
+train_embedding_models/
+
 *.log
 
 *.tsv
 
 *.h5
+
+*.py
 
