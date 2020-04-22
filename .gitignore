@@ -34,3 +34,5 @@ train_embedding_models/
 
 *.py
 
+*.csv
+
