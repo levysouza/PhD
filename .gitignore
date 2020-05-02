@@ -26,6 +26,8 @@ ACM_SIGMOD_Contest/
 
 train_embedding_models/
 
+train_data/
+
 *.log
 
 *.tsv
