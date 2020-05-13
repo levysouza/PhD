@@ -26,6 +26,8 @@ train_embedding_models/
 
 train_data/
 
+new_york_experiments/train_embedding_model/
+
 *.log
 
 *.tsv
